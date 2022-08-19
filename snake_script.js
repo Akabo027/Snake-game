@@ -54,7 +54,8 @@ window.onload = function() {
 
     this.advance = function(){
       var nextPosition = this.body[0].slice(); // slice() makes a copy of the element
-
+      // we take the <body></body> element from the snake_indext.html and assign an event on it.
+      // doi it on the canvas doesnt work yet
       const bod = document.querySelector("#b");
       bod.addEventListener('keydown', (event) => this.direction = event.key);
       //console.log(this.direction);
@@ -85,19 +86,17 @@ window.onload = function() {
           break;
       };
 
-      previous = this.direction;
-
       if ((nextPosition[0] * blockSize) >= canvasWidth)  {
         nextPosition[0] = 0;
       }
       else if ((nextPosition[1] * blockSize) >= canvasHeight) {
         nextPosition[1] = 0;
       }
-      else if (this.direction == "ArrowLeft" && nextPosition[0] == 0) {
-        nextPosition[0] = canvasWidth;
+      else if (this.direction == "ArrowLeft" && nextPosition[0] == -1) {
+        nextPosition[0] = (canvasWidth/blockSize);
       }
-      else if (this.direction == "ArrowUp" && nextPosition[1] == 0){
-        nextPosition[1] = canvasHeight;
+      else if (this.direction == "ArrowUp" && nextPosition[1] == -1){
+        nextPosition[1] = (canvasHeight/blockSize);
       }
 
       this.body.unshift(nextPosition); // add the new position at the first position of the body (the array)
