@@ -7,6 +7,9 @@ window.onload = function() {
   var ctx;
   var delay = 100;
   var snakyy;
+  var apple;
+  var score;
+  static ranking;
 
   init();
 
@@ -16,9 +19,11 @@ window.onload = function() {
     canvas.height = canvasHeight;
     canvas.style.border = "1px solid";
     document.body.appendChild(canvas); // attaches a tag to this body
-
     ctx = canvas.getContext('2d'); // specifies the dimension we're drawing in
     snakyy = new Snake([[2,0],[1,0],[0,0]]);
+    apple = new Apple();
+    score = 0;
+    ranking = [];
     refreshCanvas();
   }
 
@@ -27,7 +32,15 @@ window.onload = function() {
     // ctx.fillStyle = "#919611"; // gives a color to the drawing
     // ctx.fillRect(xCoord, yCoord, 100, 50); // (x, y, longueur, largeur), the left top-corner as origin
     snakyy.advance();
+    if (snakyy.body[0][0] == apple.position[0] && snakyy.body[0][1] == apple.position[1]) {
+      snakyy.eat();
+      score++;
+      apple.newPos();
+    }
+    snakyy.check();
     snakyy.draw();
+    apple.draw();
+    drawScore();
     setTimeout(refreshCanvas, delay); // executes a function (first parameter) after a certain time (second parameter)
   }
 
@@ -35,6 +48,12 @@ window.onload = function() {
     var x = position[0] * blockSize;
     var y = position[1] * blockSize;
     ctx.fillRect(x, y, blockSize, blockSize);
+  }
+
+  function drawScore() {
+    ctx.save();
+    ctx.fillText(score.toString(), canvasWidth - 20, canvasHeight - 3);
+    ctx.restore();
   }
 
   function Snake(body)
@@ -159,6 +178,61 @@ window.onload = function() {
       if (allowedDir.indexOf(newDirection)> -1) { //if the element does not exist, indexOf(...) returns -1
         this.direction = newDirection;
       }
+    };
+
+    this.check = function ()
+    {
+      var head = this.body[0];
+      var tail = this.body.slice(1);
+      for (var i = 0; i < tail.length; i++) {
+        if ((head[0] == tail[i][0]) && (head[1] == tail[i][1])){
+          ranking.push(score);
+          alert('YOU LOST! Your score is ' + score + '\n Your rank is ' + ranking.findIndex(score));
+          window.location.reload();
+        }
+      }
+    };
+
+    this.eat = function ()
+    {
+      switch (this.direction) {
+        case "left":
+          this.body.push([this.body[this.body.length-1][0]+1, this.body[this.body.length-1][1]]);
+          break;
+        case "right":
+          this.body.push([this.body[this.body.length-1][0]-1, this.body[this.body.length-1][1]]);
+          break;
+        case "up":
+          this.body.push([this.body[this.body.length-1][0], this.body[this.body.length-1][1]-1]);
+          break;
+        case "down":
+          this.body.push([this.body[this.body.length-1][0], this.body[this.body.length-1][1]+1]);
+          break;
+        default:
+          throw('Invalid direction');
+      }
+      //drawBlock(ctx, this.body[this.body.length]);
+    };
+  }
+
+  function Apple()
+  {
+    this.position = [Math.floor(Math.random()*29), Math.floor(Math.random()*19)];
+
+    this.newPos = function() {
+      this.position = [Math.floor(Math.random()*29), Math.floor(Math.random()*19)];
+    };
+
+    this.draw = function() {
+      ctx.save();
+      ctx.fillStyle = "#43e220";
+      ctx.beginPath();
+      var rayon = blockSize/2;
+      var x = this.position[0]*blockSize + rayon;
+      var y = this.position[1]*blockSize + rayon;
+      ctx.arc(x,y, rayon, 0, Math.PI*2, true);
+      ctx.fill();
+      ctx.restore();
     };
   }
 
