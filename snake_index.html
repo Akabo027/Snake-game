@@ -4,7 +4,41 @@
     <meta charset="utf-8">
     <script src="snake_script.js"></script>
     <title>Snake Game</title>
+    <link rel="stylesheet" href="snake_style.css">
   </head>
-  <body id="b">
+
+  <body>
+
+    <header>
+      <h2 id="h22"><strong>Snake Game</strong></h2>
+    </header>
+    <section id="main_im">
+      <div id="header">
+        <h4> <strong>Choose your game mode</strong> </h5>
+      </div>
+
+      <div class="wrapper">
+        <a href="#" id="closed_mode">
+          <article id="art1">
+            <div class="overlay">
+              <h2>closed<br>mode</h2>
+              <p class="para"> <strong> <small>In this mode, the walls are sealed.
+              If you touch them, YOU LOOSE! If you bite your tail, YOU LOOSE!</small> </strong></p>
+            </div>
+          </article>
+        </a>
+        <a href="#" id="opened_mode">
+          <article id="art2">
+            <div class="overlay">
+              <h2>opened<br>mode</h2>
+              <p class="para"> <strong> <small>In this mode, the walls are opened.
+              If you touch a wall, you come out in the opposite wall.
+              If you bite bite your tail, YOU LOOSE!</small> </strong> </p>
+            </div>
+          </article>
+        </a>
+      </div>
+    </section>
+
   </body>
 </html>
