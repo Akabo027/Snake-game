@@ -1,0 +1,16 @@
+body
+{
+  background-color: #dd2299;
+}
+
+div
+{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+canvas
+{
+  background-color: #e69138;
+}
