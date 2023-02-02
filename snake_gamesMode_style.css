@@ -1,0 +1,37 @@
+body
+{
+  background-color: #dd2299;
+}
+
+#canDiv
+{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+canvas
+{
+  background-color: #e69138;
+  margin-right: 20px;
+}
+
+h3
+{
+  font-family: sans-serif;
+  font-size: 20px;
+  margin: auto;
+}
+
+.scoreDiv
+{
+  margin-top: 475px;
+}
+
+#score
+{
+  font-family: sans-serif;
+  font-weight: bold;
+  font-size: 100px;
+  margin: auto;
+}

@@ -2,6 +2,7 @@
 window.onload = function() {
 
   const canvas = document.getElementById("canvas");
+  var txt = document.getElementById('score');
   var canvasWidth = 900;
   var canvasHeight = 600;
   var blockSize = 30;
@@ -19,7 +20,7 @@ window.onload = function() {
     canvas.style.border = "5px solid";
     //document.body.appendChild(canvas); // attaches a tag to this body
     ctx = canvas.getContext('2d'); // specifies the dimension we're drawing in
-    snakyy = new Snake([[2,0],[1,0],[0,0]]);
+    snakyy = new Snake([[3,1],[2,1],[1,1]]);
     apple = new Apple();
     score = 0;
     refreshCanvas();
@@ -33,6 +34,9 @@ window.onload = function() {
     if (snakyy.body[0][0] == apple.position[0] && snakyy.body[0][1] == apple.position[1]) {
       snakyy.eat();
       score++;
+      if (score > 0 && score%10 == 0) {
+        delay = delay-6;
+      }
       apple.newPos();
     }
     snakyy.check();
@@ -49,9 +53,12 @@ window.onload = function() {
   }
 
   function drawScore() {
-    ctx.save();
-    ctx.fillText(score.toString(), canvasWidth - 20, canvasHeight - 3);
-    ctx.restore();
+    txt.innerHTML = score;
+    // ctx.save();
+    // ctx.font = "bold 150px arial";
+    // ctx.fillStyle = "black";
+    // ctx.fillText(score.toString(), canvasWidth - 20, canvasHeight - 3);
+    // ctx.restore();
   }
 
   function Snake(body)
@@ -136,14 +143,15 @@ window.onload = function() {
     {
       var head = this.body[0];
       var tail = this.body.slice(1);
+      if ((head[0]*blockSize < 0 || head[0]*blockSize == canvasWidth) || (head[1]*blockSize < 0 || head[1]*blockSize == canvasHeight)) {
+        alert('YOU LOST! Your score is ' + score);
+        window.location.reload();
+      }
       for (var i = 0; i < tail.length; i++) {
         if ((head[0] == tail[i][0]) && (head[1] == tail[i][1])){
           alert('YOU LOST! Your score is ' + score);
           window.location.reload();
-        }
-        else if ((head[0]*blockSize < 0 || head[0]*blockSize == canvasWidth) || (head[1]*blockSize < 0 || head[1]*blockSize == canvasHeight)) {
-          alert('YOU LOST! Your score is ' + score);
-          window.location.reload();
+          break;
         }
       }
     };

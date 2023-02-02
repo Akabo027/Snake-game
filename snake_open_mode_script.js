@@ -2,6 +2,7 @@
 window.onload = function() {
 
   const canvas = document.getElementById("canvas");
+  var txt = document.getElementById('score');
   var canvasWidth = 900;
   var canvasHeight = 600;
   var blockSize = 30;
@@ -33,6 +34,9 @@ window.onload = function() {
     if (snakyy.body[0][0] == apple.position[0] && snakyy.body[0][1] == apple.position[1]) {
       snakyy.eat();
       score++;
+      if (score > 0 && score%10 == 0) {
+        delay = delay-6;
+      }
       apple.newPos();
     }
     snakyy.check();
@@ -49,9 +53,13 @@ window.onload = function() {
   }
 
   function drawScore() {
-    ctx.save();
-    ctx.fillText(score.toString(), canvasWidth - 20, canvasHeight - 3);
-    ctx.restore();
+    txt.innerHTML = score;
+    // ctx.save();
+    // ctx.font = "bold 150px arial";
+    // ctx.fillStyle = "black";
+    // ctx.textAlign = "center"
+    // ctx.fillText(score.toString(), canvasWidth - 50, canvasHeight - 3);
+    // ctx.restore();
   }
 
   function Snake(body)
@@ -186,6 +194,7 @@ window.onload = function() {
         if ((head[0] == tail[i][0]) && (head[1] == tail[i][1])){
           alert('YOU LOST! Your score is ' + score);
           window.location.reload();
+          break;
         }
       }
     };
